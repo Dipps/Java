@@ -1,0 +1,20 @@
+<html>
+<head>
+<title>Applet-Beispiel</title>
+</head>
+<body>
+Dies ist ein Beispiel für ein Applet! Damit k&ouml;nnen
+Sie mit der Maus eine durchgezogene Linie in den
+Applet-Bereich zeichnen.
+<p>
+<script src="http://www.java.com/js/deployJava.js"></script>
+<script>
+    var attributes = {code:'gui.lecture.DrawingAndStoringApplet.class',
+                      codebase:'../../../classes',
+                      width:600, height:400};
+    var parameters = {};
+    var version = '1.6' ;
+    deployJava.runApplet(attributes, parameters, version);
+</script>
+</body>
+</html>

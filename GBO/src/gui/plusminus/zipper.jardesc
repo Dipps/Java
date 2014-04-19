@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="WINDOWS-1252" standalone="no"?>
+<jardesc>
+    <jar path="D:/Studium/4S/GBO/Loesungen/Lsg_04_02.zip"/>
+    <options buildIfNeeded="true" compress="true" descriptionLocation="/GBO/src/gui/plusminus/zipper.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="false" overwrite="false" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
+    <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
+    <selectedProjects/>
+    <selectedElements exportClassFiles="false" exportJavaFiles="true" exportOutputFolder="false">
+        <folder path="/GBO/res"/>
+        <file path="/GBO/src/.checkstyle"/>
+        <javaElement handleIdentifier="=GBO/src&lt;gui.plusminus"/>
+    </selectedElements>
+</jardesc>

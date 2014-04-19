@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jnlp spec="1.0+" codebase="" href="">
+    <information>
+        <title>JNLP-Demo</title>
+        <vendor>FH Trier</vendor>
+    </information>
+    
+    <resources>
+        <!-- Application Resources -->
+        <j2se version="1.6+"
+              href="http://java.sun.com/products/autodl/j2se" />
+        <jar href="dasapplication.jar" main="true" />
+    </resources>
+    
+    <application-desc 
+         name="Drawing And Storing"
+         main-class="gui.lecture.DrawingAndStoringExample"
+         width="300"
+         height="300">
+     </application-desc>
+     
+     <update check="background"/>
+</jnlp>			

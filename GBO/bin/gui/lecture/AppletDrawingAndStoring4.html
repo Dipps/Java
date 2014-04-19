@@ -1,0 +1,17 @@
+<html>
+<head>
+<title>JNLP-Beispiel</title>
+</head>
+<body>
+Ganz normaler Text ...
+<p>
+Hier kommt der sogeanannte Launch-Button:
+<script src="http://www.java.com/js/deployJava.js"></script>
+<script>
+    var url = "DrawingAndStoringApplication.jnlp";
+    deployJava.createWebStartLaunchButton(url, '1.6.0');
+</script>
+<p>
+Dann geht es weiter ...
+</body>
+</html>
