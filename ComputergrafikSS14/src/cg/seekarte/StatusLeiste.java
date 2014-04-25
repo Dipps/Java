@@ -1,24 +1,20 @@
 package cg.seekarte;
 
 import java.awt.GridLayout;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class StatusLeiste extends JPanel implements MouseMotionListener
-{
+public class StatusLeiste extends JPanel implements IMapModelListener {
     private final JLabel lBx = new JLabel("Bx: ");
 
     private final JLabel lBy = new JLabel("By: ");
 
-    private final JLabel lMapx = new JLabel("Kx");
+    private final JLabel lMapx = new JLabel("Kx: ");
 
-    private final JLabel lMapy = new JLabel("Ky");
+    private final JLabel lMapy = new JLabel("Ky: ");
 
-    public StatusLeiste()
-    {
+    public StatusLeiste(MapModel model) {
         setLayout(new GridLayout(1, 4));
 
         add(lBx);
@@ -27,28 +23,24 @@ public class StatusLeiste extends JPanel implements MouseMotionListener
         add(lMapx);
         add(lMapy);
 
-        addMouseMotionListener(this);
     }
 
     @Override
-    public void mouseDragged(final MouseEvent e)
-    {
-        updateMousePosition(e);
+    public void mapModelChanged(MapModel model) {
+        lBx.setText("Bx: " + model.getMouseX());
+        lBy.setText("By: " + model.getMouseY());
+
+        double[] mapCoords = model.getMapCoords();
+        lMapx.setText("Kx: " + formateCoords(mapCoords[0]));
+        lMapy.setText("Ky: " + formateCoords(mapCoords[1]));
 
     }
 
-    @Override
-    public void mouseMoved(final MouseEvent e)
-    {
-        updateMousePosition(e);
+    public String formateCoords(double d) {
+        String a = "" + (int) d;
+        String b = "" + (int) ((d * 60) % 60);
+        String result = a + "° " + b + "'";
+        return result;
 
     }
-
-    private void updateMousePosition(final MouseEvent e)
-    {
-        lBx.setText("Bx: " + e.getX());
-        lBy.setText("By: " + e.getY());
-        // repaint();
-    }
-
 }
