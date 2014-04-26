@@ -49,6 +49,7 @@ public class Hauptfenster extends JFrame {
 
         add(sp, BorderLayout.CENTER);
         zf.addMouseMotionListener(controller);
+        zf.addMouseListener(controller);
 
         add(sl, BorderLayout.SOUTH);
 

@@ -36,11 +36,16 @@ public class StatusLeiste extends JPanel implements IMapModelListener {
 
     }
 
-    public String formateCoords(double d) {
+    private String formateCoords(double d) {
         String a = "" + (int) d;
         String b = "" + (int) ((d * 60) % 60);
         String result = a + "° " + b + "'";
         return result;
+
+    }
+
+    @Override
+    public void pointsChanged(MapModel model) {
 
     }
 }

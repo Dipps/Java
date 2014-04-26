@@ -8,6 +8,7 @@ import cg.matrix.Matrix;
 
 public class MapModel {
     private final ArrayList<IMapModelListener> listeners;
+    private final ArrayList<double[]> points;
     private final Map lotse;
     private final Map s09l;
     private Map selectedMap;
@@ -17,6 +18,7 @@ public class MapModel {
 
     public MapModel() {
         listeners = new ArrayList<>();
+        points = new ArrayList<>();
 
         // Kalibrierungs Punkte(Lotsekarte) als Vektor (L1, B1, x1, y1)
         double[] calLotsePoint1 = { 56, 11, 396, 36 };
@@ -90,4 +92,33 @@ public class MapModel {
             l.mapModelChanged(this);
         }
     }
+
+    public void addPoint(double[] point) {
+        points.add(point);
+        firePointsChanged();
+    }
+
+    public void removePoint(int i) {
+        points.remove(i);
+        firePointsChanged();
+    }
+
+    public void firePointsChanged() {
+        for (IMapModelListener l : listeners) {
+            l.pointsChanged(this);
+        }
+    }
+
+    public double[][] getMapTransform() {
+        return selectedMap.getTransform();
+    }
+
+    public double[][] getInverseMapTransform() {
+        return selectedMap.getInverseTransform();
+    }
+
+    public ArrayList<double[]> getPoints() {
+        return points;
+    }
+
 }
