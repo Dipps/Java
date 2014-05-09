@@ -2,21 +2,81 @@ package cg.leuchtdiode;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 
-public class Leuchtdiode implements IGeometrie {
+import cg.matrix.Matrix;
+
+public class Leuchtdiode {
     private int x; // Mittelpunkt
     private int y; // Mittelpunkt
-    private double[][] matrix;
-    private int radius;
+    private int durchmesser;
     private Color color;
+    private double[][] matrix;
 
-    public Leuchtdiode(int x, int y, double[][] matrix, int radius, Color color) {
+    public Leuchtdiode(int x, int y, int durchmesser, Color color) {
         super();
         this.x = x;
         this.y = y;
-        this.matrix = matrix;
-        this.radius = radius;
+        this.durchmesser = durchmesser;
         this.color = color;
+        matrix = new double[][] { { 1.0, 0.0, x }, { 0.0, 1.0, y },
+                { 0.0, 0.0, 1.0 } };
+    }
+
+    public void draw(Graphics g) {
+
+        final Graphics2D g2d = (Graphics2D) g;
+
+        int radius = durchmesser / 2;
+
+        // Matrix.print("", matrix);
+        AffineTransform at1 = new AffineTransform(matrix[0][0], matrix[1][0],
+                matrix[0][1], matrix[1][1], matrix[0][2], matrix[1][2]);
+
+        g2d.transform(at1);
+
+        // Diode Zeichnen
+        g2d.setColor(color);
+        g2d.fillOval(-radius, -radius, 2 * radius, 2 * radius);
+        g2d.setColor(Color.BLACK);
+        g2d.drawOval(-radius, -radius, 2 * radius, 2 * radius);
+
+        // Pins Zeichen
+        int pinRadius = 4;
+        int distance = radius / 2;
+        g2d.fillOval((-pinRadius) + distance, -pinRadius, 2 * pinRadius,
+                2 * pinRadius);
+        g2d.fillOval((-pinRadius) - distance, -pinRadius, 2 * pinRadius,
+                2 * pinRadius);
+
+        AffineTransform at2 = new AffineTransform();
+        g2d.setTransform(at2);
+        g2d.drawLine(0, 0, getX(), getY());
+
+    }
+
+    public void scale(double factor) {
+        double[][] m = { { factor + 1.0, 0.0, 0.0 },
+                { 0.0, factor + 1.0, 0.0 }, { 0.0, 0.0, 1.0 } };
+        matrix = Matrix.matMult(matrix, m);
+    }
+
+    public void setPosition(int x, int y) {
+        this.x = x;
+        this.y = y;
+        matrix[0][2] = x;
+        matrix[1][2] = y;
+    }
+
+    public void rotate(double alpha) {
+        double cos = Math.cos(Math.toRadians(alpha));
+        double sin = Math.sin(Math.toRadians(alpha));
+
+        double[][] m = { { cos, sin, 0.0 }, { -sin, cos, 0.0 },
+                { 0.0, 0.0, 1.0 } };
+        matrix = Matrix.matMult(matrix, m);
+
     }
 
     public int getX() {
@@ -25,6 +85,7 @@ public class Leuchtdiode implements IGeometrie {
 
     public void setX(int x) {
         this.x = x;
+        matrix[0][2] = x;
     }
 
     public int getY() {
@@ -33,6 +94,23 @@ public class Leuchtdiode implements IGeometrie {
 
     public void setY(int y) {
         this.y = y;
+        matrix[1][2] = y;
+    }
+
+    public int getDurchmesser() {
+        return durchmesser;
+    }
+
+    public void setDurchmesser(int durchmesser) {
+        this.durchmesser = durchmesser;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
     }
 
     public double[][] getMatrix() {
@@ -43,52 +121,4 @@ public class Leuchtdiode implements IGeometrie {
         this.matrix = matrix;
     }
 
-    public int getRadius() {
-        return radius;
-    }
-
-    public void setRadius(int radius) {
-        this.radius = radius;
-    }
-
-    public Color getColor() {
-        return color;
-    }
-
-    @Override
-    public void setColor(Color color) {
-        this.color = color;
-    }
-
-    @Override
-    public void draw(Graphics g) {
-
-        // final Graphics2D g2d = (Graphics2D) g;
-
-        // Diode Zeichnen
-        g.setColor(color);
-        g.fillOval(x - radius, y - radius, 2 * radius, 2 * radius);
-        g.setColor(Color.BLACK);
-        g.drawOval(x - radius, y - radius, 2 * radius, 2 * radius);
-
-        // Pins Zeichen
-        int r = 5;
-        int distance = radius / 2;
-        g.fillOval((x - r) - distance, y - r, 2 * r, 2 * r);
-        g.fillOval((x - r) + distance, y - r, 2 * r, 2 * r);
-
-    }
-
-    @Override
-    public void setTransform(double[][] m) {
-        // String s = "";
-        // double[] vector = { x, y, 1.0 };
-        // Matrix.print(s, vector);
-        // double[] result = Matrix.matMult(m, vector);
-        // Matrix.print(s, m);
-        // x = (int) result[0];
-        // y = (int) result[1];
-        // Matrix.print(s, result);
-
-    }
 }

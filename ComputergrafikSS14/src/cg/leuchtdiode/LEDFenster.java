@@ -1,9 +1,8 @@
 package cg.leuchtdiode;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
@@ -14,10 +13,7 @@ import javax.swing.JLabel;
 public class LEDFenster extends JLabel implements MouseMotionListener,
         MouseWheelListener {
 
-    private final double[][] m = { { 1.0, 0.0, 0.0 }, { 0.0, 1.0, 0.0 },
-            { 0.0, 0.0, 1.0 } };
-    private final Leuchtdiode diode = new Leuchtdiode(150, 150, m, 50,
-            Color.RED);
+    private final Leuchtdiode diode = new Leuchtdiode(150, 150, 50, Color.RED);
 
     public LEDFenster() {
         super();
@@ -29,18 +25,32 @@ public class LEDFenster extends JLabel implements MouseMotionListener,
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-
         diode.draw(g);
-        final Graphics2D g2d = (Graphics2D) g;
-        g2d.setStroke(new BasicStroke(4.0f));
-        g.drawLine(10, 10, diode.getX(), diode.getY());
+
+    }
+
+    @Override
+    public void mouseWheelMoved(MouseWheelEvent e) {
+        // System.out.println(e.getModifiersEx());
+        // System.out.println(MouseWheelEvent.SHIFT_DOWN_MASK);
+
+        // Shift + Mausrad zum Skallieren
+        if (e.getModifiersEx() == InputEvent.SHIFT_DOWN_MASK) {
+            double scaleFactor = 0.2 * e.getPreciseWheelRotation();
+            diode.scale(scaleFactor);
+            repaint();
+        }
+
+        if (e.getModifiersEx() == InputEvent.CTRL_DOWN_MASK) {
+            diode.rotate(45);
+            repaint();
+        }
 
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        diode.setX(e.getX());
-        diode.setY(e.getY());
+        diode.setPosition(e.getX(), e.getY());
         repaint();
 
     }
@@ -51,8 +61,4 @@ public class LEDFenster extends JLabel implements MouseMotionListener,
 
     }
 
-    @Override
-    public void mouseWheelMoved(MouseWheelEvent e) {
-
-    }
 }
