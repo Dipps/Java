@@ -10,7 +10,8 @@ public class Segment extends Geometrieliste implements IGeometrie {
     private final int length;
     private final int ledDurchmesser;
     private final Color color;
-    private final double[][] matrix;
+
+    // private final double[][] matrix;
 
     /**
      * @param x
@@ -26,8 +27,8 @@ public class Segment extends Geometrieliste implements IGeometrie {
         this.length = length;
         this.ledDurchmesser = ledDuchmesser;
         this.color = color;
-        matrix = new double[][] { { 1.0, 0.0, 0.0 }, { 0.0, 1.0, 0.0 },
-                { 0.0, 0.0, 1.0 } };
+        // matrix = new double[][] { { 1.0, 0.0, 0.0 }, { 0.0, 1.0, 0.0 },
+        // { 0.0, 0.0, 1.0 } };
         createSegment();
     }
 
