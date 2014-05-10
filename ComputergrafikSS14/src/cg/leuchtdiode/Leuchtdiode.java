@@ -7,7 +7,7 @@ import java.awt.geom.AffineTransform;
 
 import cg.matrix.Matrix;
 
-public class Leuchtdiode {
+public class Leuchtdiode implements IGeometrie {
     private int x; // Mittelpunkt
     private int y; // Mittelpunkt
     private int durchmesser;
@@ -24,6 +24,7 @@ public class Leuchtdiode {
                 { 0.0, 0.0, 1.0 } };
     }
 
+    @Override
     public void draw(Graphics g) {
 
         final Graphics2D g2d = (Graphics2D) g;
@@ -43,7 +44,7 @@ public class Leuchtdiode {
         g2d.drawOval(-radius, -radius, 2 * radius, 2 * radius);
 
         // Pins Zeichen
-        int pinRadius = 4;
+        int pinRadius = durchmesser / 14;
         int distance = radius / 2;
         g2d.fillOval((-pinRadius) + distance, -pinRadius, 2 * pinRadius,
                 2 * pinRadius);
@@ -52,7 +53,7 @@ public class Leuchtdiode {
 
         AffineTransform at2 = new AffineTransform();
         g2d.setTransform(at2);
-        g2d.drawLine(0, 0, getX(), getY());
+        // g2d.drawLine(0, 0, getX(), getY());
 
     }
 
@@ -109,6 +110,7 @@ public class Leuchtdiode {
         return color;
     }
 
+    @Override
     public void setColor(Color color) {
         this.color = color;
     }
@@ -117,7 +119,8 @@ public class Leuchtdiode {
         return matrix;
     }
 
-    public void setMatrix(double[][] matrix) {
+    @Override
+    public void setTransformation(double[][] matrix) {
         this.matrix = matrix;
     }
 

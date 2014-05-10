@@ -13,7 +13,8 @@ import javax.swing.JLabel;
 public class LEDFenster extends JLabel implements MouseMotionListener,
         MouseWheelListener {
 
-    private final Leuchtdiode diode = new Leuchtdiode(150, 150, 50, Color.RED);
+    private final Leuchtdiode diode = new Leuchtdiode(100, 150, 50, Color.RED);
+    private final Segment segment = new Segment(100, 100, 100, 30, Color.RED);
 
     public LEDFenster() {
         super();
@@ -25,7 +26,8 @@ public class LEDFenster extends JLabel implements MouseMotionListener,
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        diode.draw(g);
+        // diode.draw(g);
+        segment.draw(g);
 
     }
 
