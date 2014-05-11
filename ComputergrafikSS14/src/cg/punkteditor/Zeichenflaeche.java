@@ -70,10 +70,9 @@ public class Zeichenflaeche extends JLabel implements MouseMotionListener,
             if (e.getButton() == MouseEvent.BUTTON1) {
                 punkte.add(new Punkt(e.getX(), e.getY()));
                 repaint();
-                System.out.println("B1");
             } else if (e.getButton() == MouseEvent.BUTTON3) {
                 punkte.removeMarked();
-                System.out.println("B3");
+                repaint();
             }
         }
 
