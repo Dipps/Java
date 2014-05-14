@@ -35,21 +35,48 @@ public class Segment extends Geometrieliste implements IGeometrie {
     @Override
     public void draw(Graphics g) {
         super.draw(g);
-        g.drawLine(x + ledDurchmesser, y - ledDurchmesser, x + length
-                - ledDurchmesser, y - ledDurchmesser);
         g.drawLine(x, y, x + length, y);
-        // g.drawLine(x, y, x + length, y);
+
+        int abstand = ledDurchmesser + ledDurchmesser / 2;
+        g.drawLine(x + abstand, y - abstand, x + length - abstand, y - abstand);
+
+        g.drawLine(x + abstand, y + abstand, x + length - abstand, y + abstand);
+
+        for (int i = abstand; i < length; i += abstand) {
+            g.drawLine(x + i, y - 5, x + i, y + 5);
+        }
+
+        for (int i = 2 * abstand; i < length; i += abstand) {
+            if (i + abstand <= length - abstand) {
+                g.drawLine(x + i, (y - 5) + abstand, x + i, (y + 5) + abstand);
+            }
+        }
     }
 
     public void createSegment() {
-        int anzahl = length / ledDurchmesser - 2;
 
+        // Erste und letzte LED erstellen
         addGeometrie(new Leuchtdiode(x, y, ledDurchmesser, color));
-        for (int i = 1; i < anzahl; i++) {
-            int distance = (length / anzahl) * i;
-            addGeometrie(new Leuchtdiode(x + distance, y, ledDurchmesser, color));
-        }
         addGeometrie(new Leuchtdiode(x + length, y, ledDurchmesser, color));
 
+        int abstand = ledDurchmesser + ledDurchmesser / 2;
+        addGeometrie(new Leuchtdiode(x + abstand, y + abstand, ledDurchmesser,
+                color));
+        addGeometrie(new Leuchtdiode(x - abstand + length, y + abstand,
+                ledDurchmesser, color));
+
+        addGeometrie(new Leuchtdiode(x + abstand, y - abstand, ledDurchmesser,
+                color));
+        addGeometrie(new Leuchtdiode(x - abstand + length, y - abstand,
+                ledDurchmesser, color));
+
+        for (int i = abstand; i <= length; i += abstand) {
+            if (i + abstand <= length - abstand) {
+                addGeometrie(new Leuchtdiode(x + i, y + abstand,
+                        ledDurchmesser, color));
+                // addGeometrie(new Leuchtdiode(x + i, y - 2 * ledDurchmesser,
+                // ledDurchmesser, color));
+            }
+        }
     }
 }

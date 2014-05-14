@@ -14,7 +14,7 @@ public class LEDFenster extends JLabel implements MouseMotionListener,
         MouseWheelListener {
 
     private final Leuchtdiode diode = new Leuchtdiode(100, 150, 50, Color.RED);
-    private final Segment segment = new Segment(100, 100, 100, 30, Color.RED);
+    private final Segment segment = new Segment(100, 100, 480, 30, Color.RED);
 
     public LEDFenster() {
         super();
