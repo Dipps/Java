@@ -1,17 +1,16 @@
 package cg.leuchtdiode;
 
 import java.awt.Color;
-import java.awt.Graphics;
 
 public class Segment extends Geometrieliste implements IGeometrie {
 
-    private final int x;
-    private final int y;
-    private final int length;
-    private final int ledDurchmesser;
+    private int xPos;
+    private int yPos;
+    private int anzahl;
+    private final int ledDuchmesser;
     private final Color color;
 
-    // private final double[][] matrix;
+    private final int abstand;
 
     /**
      * @param x
@@ -20,63 +19,71 @@ public class Segment extends Geometrieliste implements IGeometrie {
      * @param color
      * @param matrix
      */
-    public Segment(int x, int y, int length, int ledDuchmesser, Color color) {
+    public Segment(int x, int y, int anzahl, int ledDuchmesser, Color color) {
         super();
-        this.x = x;
-        this.y = y;
-        this.length = length;
-        this.ledDurchmesser = ledDuchmesser;
+        if (anzahl <= 0) {
+            throw new IllegalArgumentException("anzahl muss > 0 sein");
+        }
+        this.xPos = x;
+        this.yPos = y;
+        this.anzahl = anzahl;
+        this.ledDuchmesser = ledDuchmesser;
         this.color = color;
-        // matrix = new double[][] { { 1.0, 0.0, 0.0 }, { 0.0, 1.0, 0.0 },
-        // { 0.0, 0.0, 1.0 } };
+        this.abstand = ledDuchmesser + ledDuchmesser / 2;
         createSegment();
     }
 
-    @Override
-    public void draw(Graphics g) {
-        super.draw(g);
-        g.drawLine(x, y, x + length, y);
+    private void createSegment() {
+        System.out.println(anzahl);
+        int x = xPos;
+        int y = yPos;
 
-        int abstand = ledDurchmesser + ledDurchmesser / 2;
-        g.drawLine(x + abstand, y - abstand, x + length - abstand, y - abstand);
+        addGeometrie(new Leuchtdiode(x, y, ledDuchmesser, color));
+        addGeometrie(new Leuchtdiode(x + (anzahl - 1) * abstand, y,
+                ledDuchmesser, color));
+        x += abstand;
 
-        g.drawLine(x + abstand, y + abstand, x + length - abstand, y + abstand);
-
-        for (int i = abstand; i < length; i += abstand) {
-            g.drawLine(x + i, y - 5, x + i, y + 5);
+        for (int i = 1; i < anzahl - 1; i++) {
+            addGeometrie(new Leuchtdiode(x, y + abstand, ledDuchmesser, color));
+            addGeometrie(new Leuchtdiode(x, y - abstand, ledDuchmesser, color));
+            x += abstand;
         }
 
-        for (int i = 2 * abstand; i < length; i += abstand) {
-            if (i + abstand <= length - abstand) {
-                g.drawLine(x + i, (y - 5) + abstand, x + i, (y + 5) + abstand);
-            }
-        }
     }
 
-    public void createSegment() {
+    private void updateSegment() {
+        leds.clear();
+        createSegment();
+    }
 
-        // Erste und letzte LED erstellen
-        addGeometrie(new Leuchtdiode(x, y, ledDurchmesser, color));
-        addGeometrie(new Leuchtdiode(x + length, y, ledDurchmesser, color));
+    public int getX() {
+        return xPos;
+    }
 
-        int abstand = ledDurchmesser + ledDurchmesser / 2;
-        addGeometrie(new Leuchtdiode(x + abstand, y + abstand, ledDurchmesser,
-                color));
-        addGeometrie(new Leuchtdiode(x - abstand + length, y + abstand,
-                ledDurchmesser, color));
+    public int getY() {
+        return yPos;
+    }
 
-        addGeometrie(new Leuchtdiode(x + abstand, y - abstand, ledDurchmesser,
-                color));
-        addGeometrie(new Leuchtdiode(x - abstand + length, y - abstand,
-                ledDurchmesser, color));
+    public void setPosition(int x, int y) {
+        this.xPos = x;
+        this.yPos = y;
+        updateSegment();
+    }
 
-        for (int i = abstand; i <= length; i += abstand) {
-            if (i + abstand <= length - abstand) {
-                addGeometrie(new Leuchtdiode(x + i, y + abstand,
-                        ledDurchmesser, color));
-                // addGeometrie(new Leuchtdiode(x + i, y - 2 * ledDurchmesser,
-                // ledDurchmesser, color));
-            }
+    public int getAnzahl() {
+        return anzahl;
+    }
+
+    public void setAnzahl(int anzahl) {
+        if (anzahl <= 0) {
+            this.anzahl = 1;
+        } else {
+            this.anzahl = anzahl;
         }
+        updateSegment();
+    }
+
+    public void rotate(int alpha) {
+
     }
 }

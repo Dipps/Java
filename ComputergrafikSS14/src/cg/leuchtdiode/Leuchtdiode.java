@@ -123,5 +123,4 @@ public class Leuchtdiode implements IGeometrie {
     public void setTransformation(double[][] matrix) {
         this.matrix = matrix;
     }
-
 }

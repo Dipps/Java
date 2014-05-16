@@ -13,8 +13,8 @@ import javax.swing.JLabel;
 public class LEDFenster extends JLabel implements MouseMotionListener,
         MouseWheelListener {
 
-    private final Leuchtdiode diode = new Leuchtdiode(100, 150, 50, Color.RED);
-    private final Segment segment = new Segment(100, 100, 480, 30, Color.RED);
+    private final Leuchtdiode diode = new Leuchtdiode(100, 150, 30, Color.RED);
+    private final Segment segment = new Segment(100, 100, 15, 30, Color.RED);
 
     public LEDFenster() {
         super();
@@ -36,6 +36,9 @@ public class LEDFenster extends JLabel implements MouseMotionListener,
         // System.out.println(e.getModifiersEx());
         // System.out.println(MouseWheelEvent.SHIFT_DOWN_MASK);
 
+        segment.setAnzahl(segment.getAnzahl() + e.getWheelRotation());
+        repaint();
+
         // Shift + Mausrad zum Skallieren
         if (e.getModifiersEx() == InputEvent.SHIFT_DOWN_MASK) {
             double scaleFactor = 0.2 * e.getPreciseWheelRotation();
@@ -44,7 +47,7 @@ public class LEDFenster extends JLabel implements MouseMotionListener,
         }
 
         if (e.getModifiersEx() == InputEvent.CTRL_DOWN_MASK) {
-            diode.rotate(45);
+            diode.rotate(20);
             repaint();
         }
 
@@ -53,6 +56,7 @@ public class LEDFenster extends JLabel implements MouseMotionListener,
     @Override
     public void mouseDragged(MouseEvent e) {
         diode.setPosition(e.getX(), e.getY());
+        segment.setPosition(e.getX(), e.getY());
         repaint();
 
     }

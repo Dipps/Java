@@ -21,7 +21,7 @@ public class Hauptfenster extends JFrame {
         add(sp, BorderLayout.CENTER);
 
         setLocation(200, 200);
-        setSize(400, 400);
+        setSize(800, 500);
         setVisible(true);
     }
 

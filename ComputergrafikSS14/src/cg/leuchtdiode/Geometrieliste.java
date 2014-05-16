@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Geometrieliste implements IGeometrie {
 
-    private final ArrayList<IGeometrie> leds;
+    protected final ArrayList<IGeometrie> leds;
 
     /**
      * @param leds
