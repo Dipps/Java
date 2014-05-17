@@ -15,7 +15,9 @@ public class LEDFenster extends JLabel implements MouseMotionListener,
         MouseWheelListener, MouseListener {
 
     private final Leuchtdiode diode = new Leuchtdiode(100, 150, 30, Color.RED);
-    private final Segment segment = new Segment(0, 0, 15, 30, Color.RED);
+    private final Segment segment = new Segment(150, 150, 15, 15, Color.RED);
+    private final SiebenSegmentAnzeige siebenS = new SiebenSegmentAnzeige(150,
+            150, 90, 10, 10, 0);
 
     public LEDFenster() {
         super();
@@ -29,7 +31,8 @@ public class LEDFenster extends JLabel implements MouseMotionListener,
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         // diode.draw(g);
-        segment.draw(g);
+        // segment.draw(g);
+        siebenS.draw(g);
 
     }
 
@@ -46,12 +49,20 @@ public class LEDFenster extends JLabel implements MouseMotionListener,
             double scaleFactor = 0.2 * e.getPreciseWheelRotation();
             diode.scale(scaleFactor);
             segment.setAnzahl(segment.getAnzahl() + e.getWheelRotation());
+            siebenS.scaleHeight(e.getWheelRotation());
+            repaint();
+        }
+
+        if (e.getModifiersEx() == InputEvent.ALT_DOWN_MASK) {
+            siebenS.scaleWidth(e.getWheelRotation());
             repaint();
         }
 
         if (e.getModifiersEx() == InputEvent.CTRL_DOWN_MASK) {
             diode.rotate(5 * e.getWheelRotation());
             segment.rotate(5 * e.getWheelRotation());
+            siebenS.setSchraegWinkel(siebenS.getSchraegWinkel()
+                    + (1 * e.getWheelRotation()));
             repaint();
         }
 
@@ -61,6 +72,7 @@ public class LEDFenster extends JLabel implements MouseMotionListener,
     public void mouseDragged(MouseEvent e) {
         diode.setPosition(e.getX(), e.getY());
         segment.setPosition(e.getX(), e.getY());
+        siebenS.setPosition(e.getX(), e.getY());
         repaint();
 
     }
