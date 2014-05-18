@@ -13,13 +13,15 @@ public class Leuchtdiode implements IGeometrie {
     private int durchmesser;
     private Color color;
     private double[][] matrix;
+    private final int ledWinkel;
 
-    public Leuchtdiode(int x, int y, int durchmesser, Color color) {
+    public Leuchtdiode(int x, int y, int durchmesser, Color color, int ledWinkel) {
         super();
         this.x = x;
         this.y = y;
         this.durchmesser = durchmesser;
         this.color = color;
+        this.ledWinkel = ledWinkel;
         matrix = new double[][] { { 1.0, 0.0, x }, { 0.0, 1.0, y },
                 { 0.0, 0.0, 1.0 } };
     }
@@ -35,6 +37,7 @@ public class Leuchtdiode implements IGeometrie {
         AffineTransform at1 = new AffineTransform(matrix[0][0], matrix[1][0],
                 matrix[0][1], matrix[1][1], matrix[0][2], matrix[1][2]);
 
+        at1.rotate(Math.toRadians(ledWinkel));
         g2d.transform(at1);
 
         // Diode Zeichnen

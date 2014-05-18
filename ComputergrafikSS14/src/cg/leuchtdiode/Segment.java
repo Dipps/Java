@@ -12,12 +12,14 @@ public class Segment extends Geometrieliste implements IGeometrie {
     private int anzahl;
     private final int ledDurchmesser;
     private Color color;
+    private final int ledWinkel;
     private double[][] matrix = { { 1.0, 0.0, 0.0 }, { 0.0, 1.0, 0.0 },
             { 0.0, 0.0, 1.0 } };
 
     private final int abstand;
 
-    public Segment(int x, int y, int anzahl, int ledDurchmesser, Color color) {
+    public Segment(int x, int y, int anzahl, int ledDurchmesser, Color color,
+            int ledWinkel) {
         super();
         if (anzahl <= 0) {
             anzahl = 1;
@@ -28,13 +30,14 @@ public class Segment extends Geometrieliste implements IGeometrie {
         this.anzahl = anzahl;
         this.ledDurchmesser = ledDurchmesser;
         this.color = color;
+        this.ledWinkel = ledWinkel;
         this.abstand = ledDurchmesser + ledDurchmesser / 2;
         createSegment();
     }
 
     public Segment(int x, int y, int anzahl, int ledDurchmesser, Color color,
-            int winkel) {
-        this(x, y, anzahl, ledDurchmesser, color);
+            int ledWinkel, int winkel) {
+        this(x, y, anzahl, ledDurchmesser, color, ledWinkel);
         rotate(winkel);
     }
 
@@ -48,13 +51,13 @@ public class Segment extends Geometrieliste implements IGeometrie {
         double[] pos = { x, y, 1.0 };
         pos = Matrix.matMult(matrix, pos);
         addGeometrie(new Leuchtdiode((int) pos[0], (int) pos[1],
-                ledDurchmesser, color));
+                ledDurchmesser, color, ledWinkel));
 
         pos[0] = x + (anzahl - 1) * abstand;
         pos[1] = y;
         pos = Matrix.matMult(matrix, pos);
         addGeometrie(new Leuchtdiode((int) pos[0], (int) pos[1],
-                ledDurchmesser, color));
+                ledDurchmesser, color, ledWinkel));
         endPos[0] = (int) pos[0];
         endPos[1] = (int) pos[1];
         x += abstand;
@@ -65,14 +68,14 @@ public class Segment extends Geometrieliste implements IGeometrie {
             pos = Matrix.matMult(matrix, pos);
 
             addGeometrie(new Leuchtdiode((int) pos[0], (int) pos[1],
-                    ledDurchmesser, color));
+                    ledDurchmesser, color, ledWinkel));
 
             pos[0] = x;
             pos[1] = y - abstand;
             pos = Matrix.matMult(matrix, pos);
 
             addGeometrie(new Leuchtdiode((int) pos[0], (int) pos[1],
-                    ledDurchmesser, color));
+                    ledDurchmesser, color, ledWinkel));
             x += abstand;
         }
 
