@@ -30,6 +30,10 @@ public class LEDFenster extends JLabel implements MouseMotionListener,
 
     }
 
+    public SiebenSegmentAnzeige getSiebenSegmentAnzeige() {
+        return siebenS;
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -58,6 +62,7 @@ public class LEDFenster extends JLabel implements MouseMotionListener,
 
         if (e.getModifiersEx() == InputEvent.ALT_DOWN_MASK) {
             siebenS.scaleWidth(e.getWheelRotation());
+            diode.getBohrPosition();
             repaint();
         }
 

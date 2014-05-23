@@ -53,8 +53,8 @@ public class Segment extends Geometrieliste implements IGeometrie {
         addGeometrie(new Leuchtdiode((int) pos[0], (int) pos[1],
                 ledDurchmesser, color, ledWinkel));
 
-        pos[0] = x + (anzahl - 1) * abstand;
-        pos[1] = y;
+        pos[0] = 0 + (anzahl - 1) * abstand;
+        pos[1] = 0;
         pos = Matrix.matMult(matrix, pos);
         addGeometrie(new Leuchtdiode((int) pos[0], (int) pos[1],
                 ledDurchmesser, color, ledWinkel));
@@ -78,7 +78,6 @@ public class Segment extends Geometrieliste implements IGeometrie {
                     ledDurchmesser, color, ledWinkel));
             x += abstand;
         }
-
     }
 
     private void updateSegment() {
@@ -144,4 +143,5 @@ public class Segment extends Geometrieliste implements IGeometrie {
     public int[] getEndPosition() {
         return endPos;
     }
+
 }

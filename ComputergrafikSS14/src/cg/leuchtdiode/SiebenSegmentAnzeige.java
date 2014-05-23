@@ -91,6 +91,10 @@ public class SiebenSegmentAnzeige {
         initSegmentColor();
     }
 
+    public ArrayList<Segment> getSegments() {
+        return segments;
+    }
+
     public void update() {
         segments.clear();
         createSegments();
