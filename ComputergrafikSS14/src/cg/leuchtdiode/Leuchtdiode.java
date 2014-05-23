@@ -158,9 +158,9 @@ public class Leuchtdiode implements IGeometrie {
 
         bohrPos[0][1] = pos2[0];
         bohrPos[1][1] = pos2[1];
-        Matrix.print("", pos1);
-        Matrix.print("", pos2);
-        Matrix.print("", bohrPos);
+        // Matrix.print("", pos1);
+        // Matrix.print("", pos2);
+        // Matrix.print("", bohrPos);
     }
 
     public double[][] getBohrPosition() {
