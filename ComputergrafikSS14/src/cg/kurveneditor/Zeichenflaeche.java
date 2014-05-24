@@ -18,6 +18,8 @@ public class Zeichenflaeche extends JLabel implements MouseListener,
     private final StatusAnzeige sa;
     private boolean mouseIn = false;
 
+    private final HermiteSpline hSpline = new HermiteSpline();
+
     public Zeichenflaeche(StatusAnzeige sa) {
         punkte = new Punktliste();
         punkte.setDrawLine(false);
@@ -32,6 +34,7 @@ public class Zeichenflaeche extends JLabel implements MouseListener,
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         punkte.draw(g);
+        hSpline.draw(g, punkte, Color.RED);
 
     }
 
