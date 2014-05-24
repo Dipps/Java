@@ -10,7 +10,7 @@ public class Punktliste {
 
     private final Color highLight = Color.RED;
 
-    private final Color line = Color.BLUE;
+    private Color line = Color.BLUE;
 
     private boolean drawLine = true;
 
@@ -82,6 +82,10 @@ public class Punktliste {
 
     public void setDrawLine(boolean b) {
         drawLine = b;
+    }
+
+    public void setLineColor(Color c) {
+        this.line = c;
     }
 
 }
