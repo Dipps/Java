@@ -74,7 +74,7 @@ public class HermiteSpline implements IGeometrieView {
                 int samples = 32;
                 double dt = 1d / samples;
 
-                for (double t = 0d; t < 1.0; t += dt) {
+                for (double t = 0d; t <= 1.0; t += dt) {
 
                     int[] c = kurve(t, i);
 
