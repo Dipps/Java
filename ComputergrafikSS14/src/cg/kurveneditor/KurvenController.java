@@ -34,7 +34,5 @@ public class KurvenController implements ActionListener {
                 System.out.println("Linien nicht zeichnen");
             }
         }
-
     }
-
 }
