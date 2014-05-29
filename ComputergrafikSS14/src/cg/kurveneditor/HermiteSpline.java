@@ -16,6 +16,7 @@ public abstract class HermiteSpline implements IGeometrieView {
     protected int anzahl;
     protected double[][] a, b, aInvB;
     protected double[][] pStrich, punkte;
+    protected boolean draw = false;
 
     protected double[] bindeF(double t) {
 
@@ -25,4 +26,13 @@ public abstract class HermiteSpline implements IGeometrieView {
         double t4 = (t * t * t) - (t * t);
         return new double[] { t1, t2, t3, t4 };
     }
+
+    public boolean getDraw() {
+        return draw;
+    }
+
+    public void setDraw(boolean draw) {
+        this.draw = draw;
+    }
+
 }

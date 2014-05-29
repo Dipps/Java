@@ -10,9 +10,11 @@ import cg.punkteditor.Punktliste;
 public class KurvenController implements ActionListener {
 
     private final Punktliste punkte;
+    Zeichenflaeche zf;
 
-    public KurvenController(Punktliste p) {
-        this.punkte = p;
+    public KurvenController(Zeichenflaeche zf) {
+        this.punkte = zf.getPunkte();
+        this.zf = zf;
     }
 
     @Override
@@ -34,5 +36,50 @@ public class KurvenController implements ActionListener {
                 System.out.println("Linien nicht zeichnen");
             }
         }
+
+        if (s.equals("Eingepannte - HS")) {
+            JCheckBox jcb = (JCheckBox) e.getSource();
+            if (jcb.isSelected()) {
+                zf.drawEingespannteHS(true);
+                System.out.println("Eingepannte - HS zeichen");
+            } else {
+                zf.drawEingespannteHS(false);
+                System.out.println("Eingepannte - HS nicht zeichnen");
+            }
+        }
+
+        if (s.equals("Natürliche - HS")) {
+            JCheckBox jcb = (JCheckBox) e.getSource();
+            if (jcb.isSelected()) {
+                zf.drawNaturHS(true);
+                System.out.println("Natürliche - HS zeichen");
+            } else {
+                zf.drawNaturHS(false);
+                System.out.println("Natürliche - HS nicht zeichnen");
+            }
+        }
+
+        if (s.equals("Geschlossene - HS")) {
+            JCheckBox jcb = (JCheckBox) e.getSource();
+            if (jcb.isSelected()) {
+                zf.drawGeschlossenHS(true);
+                System.out.println("Geschlossene - HS zeichen");
+            } else {
+                zf.drawGeschlossenHS(false);
+                System.out.println("Geschlossene - HS nicht zeichnen");
+            }
+        }
+
+        if (s.equals("Parabol - HS")) {
+            JCheckBox jcb = (JCheckBox) e.getSource();
+            if (jcb.isSelected()) {
+                zf.drawParabolHS(true);
+                System.out.println("Parabol - HS zeichen");
+            } else {
+                zf.drawParabolHS(false);
+                System.out.println("Parabol - HS nicht zeichnen");
+            }
+        }
+
     }
 }

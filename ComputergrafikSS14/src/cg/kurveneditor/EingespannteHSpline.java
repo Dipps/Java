@@ -6,7 +6,7 @@ import java.awt.Graphics;
 import cg.matrix.Matrix;
 import cg.punkteditor.Punktliste;
 
-public class ParabolHSpline extends HermiteSpline {
+public class EingespannteHSpline extends HermiteSpline {
 
     @Override
     public void draw(Graphics g, Punktliste p, Color color) {
@@ -16,7 +16,7 @@ public class ParabolHSpline extends HermiteSpline {
 
         update(p);
 
-        if (anzahl > 2) {
+        if (anzahl > 3) {
 
             punkte = new double[anzahl][2];
             for (int i = 0; i < anzahl; ++i) {
@@ -26,7 +26,7 @@ public class ParabolHSpline extends HermiteSpline {
 
             pStrich = Matrix.matMult(aInvB, punkte);
 
-            for (int i = 0; i < anzahl - 1; ++i) {
+            for (int i = 1; i < anzahl - 2; ++i) {
 
                 int xa = (int) punkte[i][0];
                 int ya = (int) punkte[i][1];
@@ -44,30 +44,35 @@ public class ParabolHSpline extends HermiteSpline {
                     ya = c[1];
                 }
             }
+
+            // @formatter:off
+            g.setColor(Color.GREEN);
+            g.drawLine((int) punkte[0][0], (int) punkte[0][1],
+                       (int) punkte[1][0], (int) punkte[1][1]);
+            g.drawLine((int) punkte[anzahl - 2][0], (int) punkte[anzahl - 2][1], 
+                       (int) punkte[anzahl - 1][0], (int) punkte[anzahl - 1][1]);
+            // @formatter:on
+
         }
 
     }
 
     @Override
     public void update(Punktliste p) {
-        parabolSpline(p);
+        clampSpline(p);
     }
 
-    private void parabolSpline(Punktliste p) {
+    private void clampSpline(Punktliste p) {
         anzahl = p.getSize();
 
-        if (anzahl > 2) {
+        if (anzahl > 3) {
             a = new double[anzahl][anzahl];
             a[0][0] = 1d;
-            a[0][1] = 1d;
             a[anzahl - 1][anzahl - 1] = 1d;
-            a[anzahl - 1][anzahl - 2] = 1d;
 
             b = new double[anzahl][anzahl];
-            b[0][0] = -2d;
-            b[0][1] = 2d;
-            b[anzahl - 1][anzahl - 2] = -2d;
-            b[anzahl - 1][anzahl - 1] = 2d;
+            b[0][0] = 1d;
+            b[anzahl - 1][anzahl - 1] = 1d;
 
             for (int i = 1; i < anzahl - 1; ++i) {
                 a[i][i - 1] = 1d; // Z1: 1(Pi-1)
@@ -85,6 +90,7 @@ public class ParabolHSpline extends HermiteSpline {
             System.out.println("::::::::::::::::::::::::");
             aInvB = Matrix.matMult(Matrix.invertiereMatrix(a), b);
         }
+
     }
 
     private int[] kurve(double t, int i) {
@@ -105,4 +111,5 @@ public class ParabolHSpline extends HermiteSpline {
 
         return result;
     }
+
 }

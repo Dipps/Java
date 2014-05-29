@@ -15,6 +15,10 @@ public class GeschlossenHSpline extends HermiteSpline {
 
     @Override
     public void draw(Graphics g, Punktliste p, Color color) {
+        if (!draw) {
+            return;
+        }
+
         update(p);
 
         if (anzahl > 2) {
@@ -45,36 +49,6 @@ public class GeschlossenHSpline extends HermiteSpline {
                     ya = c[1];
                 }
             }
-        }
-    }
-
-    private void clampSpline(Punktliste p) {
-        anzahl = p.getSize();
-
-        if (anzahl > 3) {
-            a = new double[anzahl - 2][anzahl - 2];
-            a[0][anzahl - 4] = 1d;
-            a[anzahl - 3][anzahl - 3] = 1d;
-
-            b = new double[anzahl - 2][anzahl];
-            b[0][0] = 1d;
-            b[anzahl - 3][anzahl - 1] = 1d;
-
-            for (int i = 1; i < anzahl - 3; ++i) {
-                a[i][i - 1] = 1d; // Z1: 1(Pi-1)
-                a[i][i] = 4d; // Z1: 4(Pi)
-                a[i][i + 1] = 1d; // Z1: 1(Pi+1)
-
-                b[i][(i + 1) - 1] = -3d; // Z1: -3(Pi-1)
-                b[i][(i + 1) + 1] = 3d; // Z1: 3(Pi+1)
-            }
-
-            System.out.println("::::::::::::::::::::::::");
-            Matrix.print("A: ", a);
-            System.out.println("------------------------");
-            Matrix.print("B: ", b);
-            System.out.println("::::::::::::::::::::::::");
-            aInvB = Matrix.matMult(Matrix.invertiereMatrix(a), b);
         }
     }
 
@@ -137,4 +111,5 @@ public class GeschlossenHSpline extends HermiteSpline {
 
         return result;
     }
+
 }

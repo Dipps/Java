@@ -10,6 +10,10 @@ public class NaturHSpline extends HermiteSpline {
 
     @Override
     public void draw(Graphics g, Punktliste p, Color color) {
+        if (!draw) {
+            return;
+        }
+
         update(p);
 
         if (anzahl > 2) {
