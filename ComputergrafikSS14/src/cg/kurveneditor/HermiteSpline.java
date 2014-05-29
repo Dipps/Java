@@ -2,7 +2,6 @@ package cg.kurveneditor;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 
 import cg.matrix.Matrix;
 import cg.punkteditor.Punktliste;
@@ -10,40 +9,103 @@ import cg.punkteditor.Punktliste;
 public class HermiteSpline implements IGeometrieView {
 
     private int anzahl;
-    private double[][] randbed = new double[4][2];
+    private double[][] a, b, aInvB;
+    private double[][] pStrich, punkte;
 
     @Override
-    public void draw(Graphics g, Punktliste p, Color c) {
-        update(p);
-        Graphics2D g2d = (Graphics2D) g;
+    public void update(Punktliste p) {
+        anzahl = p.getSize();
 
-        if (anzahl >= 4) {
-            // zeiche Tangenten T0 T1
-            g2d.setColor(Color.YELLOW);
-            g2d.drawLine((int) randbed[0][0], (int) randbed[0][1],
-                    (int) randbed[2][0], (int) randbed[2][1]);
-            g2d.drawLine((int) randbed[1][0], (int) randbed[1][1],
-                    (int) randbed[3][0], (int) randbed[3][1]);
+        if (anzahl > 2) {
+            // MP - Form: 1(Pi-1) + 4(Pi) + 1(Pi+1) = -3(Pi-1) + 3(Pi+1)
+            a = new double[anzahl][anzahl];
+            a[0][anzahl - 1] = 1d; // Z1: 1(Pi-1)
+            a[0][0] = 4d; // Z1: 4(Pi)
+            a[0][1] = 1d; // Z1: 1(Pi+1)
 
-            // Zeichne Kurve von P0 -> P1
-            g2d.setColor(c);
+            b = new double[anzahl][anzahl];
+            b[0][anzahl - 1] = -3d; // Z1: -3(Pi-1)
+            b[0][1] = 3d; // Z1: 3(Pi+1)
 
-            double[] k_alt = { randbed[0][0], randbed[0][1] };
-            double dt = 1.0 / 32.0;
-            for (double t = dt; t < 1.0; t += dt) {
-                double[] k = kurve(t);
-                g2d.drawLine((int) k_alt[0], (int) k_alt[1], (int) k[0],
-                        (int) k[1]);
-                k_alt = k;
+            for (int i = 1; i < anzahl - 1; ++i) {
+                a[i][i - 1] = 1d; // Z1: 1(Pi-1)
+                a[i][i] = 4d; // Z1: 4(Pi)
+                a[i][i + 1] = 1d; // Z1: 1(Pi+1)
 
+                b[i][i - 1] = -3d; // Z1: -3(Pi-1)
+                b[i][i + 1] = 3d; // Z1: 3(Pi+1)
             }
 
-        }
+            a[anzahl - 1][anzahl - 2] = 1d; // ZE: 1(Pi-1)
+            a[anzahl - 1][anzahl - 1] = 4d; // ZE: 4(Pi)
+            a[anzahl - 1][0] = 1d; // ZE: 1(Pi+1)
 
+            b[anzahl - 1][anzahl - 2] = -3d; // ZE: -3(Pi-1)
+            b[anzahl - 1][0] = 3d; // ZE: 3(Pi+1)
+
+            System.out.println("::::::::::::::::::::::::");
+            Matrix.print("A: ", a);
+            System.out.println("------------------------");
+            Matrix.print("B: ", b);
+            System.out.println("::::::::::::::::::::::::");
+            aInvB = Matrix.matMult(Matrix.invertiereMatrix(a), b);
+        }
     }
 
-    private double[] kurve(double t) {
-        return Matrix.matMult(new double[][] { bindeF(t) }, randbed)[0];
+    @Override
+    public void draw(Graphics g, Punktliste p, Color color) {
+        update(p);
+
+        if (anzahl > 2) {
+
+            punkte = new double[anzahl][2];
+            for (int i = 0; i < anzahl; ++i) {
+                punkte[i][0] = p.getPunktAt(i).getX();
+                punkte[i][1] = p.getPunktAt(i).getY();
+            }
+
+            pStrich = Matrix.matMult(aInvB, punkte);
+
+            for (int i = 0; i < anzahl; ++i) {
+
+                int xa = (int) punkte[i][0];
+                int ya = (int) punkte[i][1];
+
+                int samples = 32;
+                double dt = 1d / samples;
+
+                for (double t = 0d; t < 1.0; t += dt) {
+
+                    int[] c = kurve(t, i);
+
+                    g.setColor(color);
+                    g.drawLine(xa, ya, c[0], c[1]);
+                    xa = c[0];
+                    ya = c[1];
+                }
+            }
+        }
+    }
+
+    private int[] kurve(double t, int i) {
+
+        double[] h = bindeF(t);
+        int[] result = new int[2];
+        int iMod = (i + 1) % anzahl;
+
+        // @formatter:off
+        result[0] = (int) (h[0] * punkte[i][0] 
+                         + h[1] * punkte[iMod][0] 
+                         + h[2] * pStrich[i][0] 
+                         + h[3] * pStrich[iMod][0]);
+        
+        result[1] = (int) (h[0] * punkte[i][1] 
+                         + h[1] * punkte[iMod][1] 
+                         + h[2] * pStrich[i][1] 
+                         + h[3] * pStrich[iMod][1]);
+        // @formatter:on
+
+        return result;
     }
 
     private double[] bindeF(double t) {
@@ -55,17 +117,4 @@ public class HermiteSpline implements IGeometrieView {
         return new double[] { t1, t2, t3, t4 };
     }
 
-    @Override
-    public void update(Punktliste p) {
-        anzahl = p.getSize();
-
-        if (anzahl >= 4) {
-            double[] p0 = { p.getPunktAt(0).getX(), p.getPunktAt(0).getY() };
-            double[] p1 = { p.getPunktAt(1).getX(), p.getPunktAt(1).getY() };
-            double[] t0 = { p.getPunktAt(2).getX(), p.getPunktAt(2).getY() };
-            double[] t1 = { p.getPunktAt(3).getX(), p.getPunktAt(3).getY() };
-            randbed = new double[][] { p0, p1, t0, t1 };
-
-        }
-    }
 }
