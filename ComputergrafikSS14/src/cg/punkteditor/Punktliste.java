@@ -88,4 +88,8 @@ public class Punktliste {
         this.line = c;
     }
 
+    public void clear() {
+        punkte.clear();
+    }
+
 }
