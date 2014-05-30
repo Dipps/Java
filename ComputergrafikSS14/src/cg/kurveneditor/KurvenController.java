@@ -5,15 +5,11 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JCheckBox;
 
-import cg.punkteditor.Punktliste;
-
 public class KurvenController implements ActionListener {
 
-    private final Punktliste punkte;
-    Zeichenflaeche zf;
+    private final Zeichenflaeche zf;
 
     public KurvenController(Zeichenflaeche zf) {
-        this.punkte = zf.getPunkte();
         this.zf = zf;
     }
 
@@ -26,13 +22,18 @@ public class KurvenController implements ActionListener {
             System.exit(0);
         }
 
+        if (s.equals("Punkte Löschen")) {
+            System.out.println("Punkte Löschen");
+            zf.clearPoints();
+        }
+
         if (s.equals("Linien zeichen")) {
             JCheckBox jcb = (JCheckBox) e.getSource();
             if (jcb.isSelected()) {
-                punkte.setDrawLine(true);
+                zf.setDrawLine(true);
                 System.out.println("Linien zeichen");
             } else {
-                punkte.setDrawLine(false);
+                zf.setDrawLine(false);
                 System.out.println("Linien nicht zeichnen");
             }
         }
@@ -78,6 +79,17 @@ public class KurvenController implements ActionListener {
             } else {
                 zf.drawParabolHS(false);
                 System.out.println("Parabol - HS nicht zeichnen");
+            }
+        }
+
+        if (s.equals("Bezier - Kurve")) {
+            JCheckBox jcb = (JCheckBox) e.getSource();
+            if (jcb.isSelected()) {
+                zf.drawBezierKurve(true);
+                System.out.println("Bezier - Kurve zeichen");
+            } else {
+                zf.drawBezierKurve(false);
+                System.out.println("Bezier - Kurve nicht zeichnen");
             }
         }
 

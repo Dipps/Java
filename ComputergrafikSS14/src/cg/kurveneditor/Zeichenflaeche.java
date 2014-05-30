@@ -22,6 +22,7 @@ public class Zeichenflaeche extends JLabel implements MouseListener,
     private final ParabolHSpline pHSpline = new ParabolHSpline();
     private final NaturHSpline nHSpline = new NaturHSpline();
     private final EingespannteHSpline eHSpline = new EingespannteHSpline();
+    private final BezierKurve bezierK = new BezierKurve();
 
     public Zeichenflaeche(StatusAnzeige sa) {
         punkte = new Punktliste();
@@ -41,6 +42,7 @@ public class Zeichenflaeche extends JLabel implements MouseListener,
         pHSpline.draw(g, punkte, Color.RED);
         nHSpline.draw(g, punkte, Color.CYAN);
         eHSpline.draw(g, punkte, Color.MAGENTA);
+        bezierK.draw(g, punkte, Color.RED);
     }
 
     @Override
@@ -120,6 +122,22 @@ public class Zeichenflaeche extends JLabel implements MouseListener,
 
     public void drawEingespannteHS(boolean b) {
         eHSpline.setDraw(b);
+        repaint();
+    }
+
+    public void drawBezierKurve(boolean b) {
+        bezierK.setDraw(b);
+        repaint();
+    }
+
+    public void clearPoints() {
+        punkte.clear();
+        sa.setPunkte(punkte.getSize());
+        repaint();
+    }
+
+    public void setDrawLine(boolean b) {
+        punkte.setDrawLine(b);
         repaint();
     }
 

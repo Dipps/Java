@@ -16,13 +16,16 @@ public class Hauptfenster extends JFrame {
     private final JMenu menuDatei = new JMenu("Datei");
     private final JMenu menuOption = new JMenu("Optionen");
     private final JMenu menuHermite = new JMenu("HermiteSpline");
+    private final JMenu menuBezier = new JMenu("Bezier Kurve");
     private final JMenuItem miBeenden = new JMenuItem("Beenden");
+    private final JMenuItem miLoeschen = new JMenuItem("Punkte Löschen");
 
     private final JCheckBox cbDrawLine = new JCheckBox("Linien zeichen");
     private final JCheckBox cbEHSpline = new JCheckBox("Eingepannte - HS");
     private final JCheckBox cbNHSpline = new JCheckBox("Natürliche - HS");
     private final JCheckBox cbGHSpline = new JCheckBox("Geschlossene - HS");
     private final JCheckBox cbPHSpline = new JCheckBox("Parabol - HS");
+    private final JCheckBox cbBezier = new JCheckBox("Bezier - Kurve");
 
     private final StatusAnzeige sa = new StatusAnzeige();
 
@@ -38,19 +41,25 @@ public class Hauptfenster extends JFrame {
         menuBar.add(menuDatei);
         menuBar.add(menuOption);
         menuBar.add(menuHermite);
+        menuBar.add(menuBezier);
+
         menuDatei.add(miBeenden);
+        menuOption.add(miLoeschen);
         menuOption.add(cbDrawLine);
         menuHermite.add(cbEHSpline);
         menuHermite.add(cbNHSpline);
         menuHermite.add(cbGHSpline);
         menuHermite.add(cbPHSpline);
+        menuBezier.add(cbBezier);
 
         miBeenden.addActionListener(controller);
+        miLoeschen.addActionListener(controller);
         cbDrawLine.addActionListener(controller);
         cbEHSpline.addActionListener(controller);
         cbNHSpline.addActionListener(controller);
         cbGHSpline.addActionListener(controller);
         cbPHSpline.addActionListener(controller);
+        cbBezier.addActionListener(controller);
 
         add(menuBar, BorderLayout.NORTH);
         add(sp, BorderLayout.CENTER);
