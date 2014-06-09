@@ -17,8 +17,8 @@ public class Hauptfenster extends JFrame {
     private final JMenu menuDatei = new JMenu("Datei");
     private final JMenuItem miBeenden = new JMenuItem("Beenden");
 
-    private final Zeichenflaeche zf = new Zeichenflaeche();
-    private final JScrollPane sp = new JScrollPane(zf);
+    private final GraphicsView gv = new GraphicsView(model);
+    private final JScrollPane sp = new JScrollPane(gv);
 
     private final SliderView sliderView = new SliderView(model, controller);
     private final MatrixPanelView matrixView = new MatrixPanelView(model,
@@ -31,6 +31,7 @@ public class Hauptfenster extends JFrame {
 
         model.addAbbModelListener(sliderView);
         model.addAbbModelListener(matrixView);
+        model.addAbbModelListener(gv);
 
         menuBar.add(menuDatei);
         menuDatei.add(miBeenden);

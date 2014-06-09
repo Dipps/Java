@@ -7,7 +7,9 @@ import cg.matrix.Matrix;
 public class AbbModel {
     private final ArrayList<IAbbListener> listeners = new ArrayList<>();
 
-    private double factor = 1.3;
+    private double[] center = { 0.0, 0.0, 0.0, 1.0 };
+
+    private double factor = 1.0;
     private double alpha = 0.0;
     private double beta = 0.0;
     private double gamma = 0.0;
@@ -19,6 +21,16 @@ public class AbbModel {
     private double[][] mBeta = new double[4][4];
     private double[][] mGamma = new double[4][4];
     private double[][] mZxZ = new double[4][4];
+
+    private double[] x = { 100, 0, 0, 1.0 };
+    private double[] y = { 0, 100, 0, 1.0 };
+    private double[] z = { 0, 0, 100, 1.0 };
+
+    private final double[] xAchse = { 5000, 0, 0, 1.0 };
+    private final double[] yAchse = { 0, 5000, 0, 1.0 };
+    private final double[] zAchse = { 0, 0, 5000, 1.0 };
+
+    private double[] xS, yS, zS, xAchseS, yAchseS, zAchseS;
 
     public AbbModel() {
         initMatrices();
@@ -44,6 +56,64 @@ public class AbbModel {
         updateBetaMatrix();
         updateGammaMatrix();
         updateZxZMatrix();
+        updateViewport();
+        // updateAnsicht();
+        calculatePoints();
+    }
+
+    public void calculatePoints() {
+
+        calculatePlanePoints();
+        calculateAxesPoints();
+    }
+
+    private void calculateAxesPoints() {
+
+        xAchseS = Matrix.matMult(mViewport, xAchse);
+        yAchseS = Matrix.matMult(mViewport, yAchse);
+        zAchseS = Matrix.matMult(mViewport, zAchse);
+
+        xAchseS = Matrix.matMult(mAnsicht, xAchseS);
+        yAchseS = Matrix.matMult(mAnsicht, yAchseS);
+        zAchseS = Matrix.matMult(mAnsicht, zAchseS);
+
+    }
+
+    private void calculatePlanePoints() {
+        xS = Matrix.matMult(mZxZ, x);
+        yS = Matrix.matMult(mZxZ, y);
+        zS = Matrix.matMult(mZxZ, z);
+
+        xS = Matrix.matMult(mViewport, xS);
+        yS = Matrix.matMult(mViewport, yS);
+        zS = Matrix.matMult(mViewport, zS);
+
+        xS = Matrix.matMult(mAnsicht, xS);
+        yS = Matrix.matMult(mAnsicht, yS);
+        zS = Matrix.matMult(mAnsicht, zS);
+    }
+
+    private void updateAnsicht() {
+        mAnsicht[0][0] = 0.71;
+        mAnsicht[0][1] = 0.71;
+
+        mAnsicht[1][0] = -0.50;
+        mAnsicht[1][1] = 0.50;
+        mAnsicht[1][2] = 0.71;
+
+        mAnsicht[2][0] = 0.50;
+        mAnsicht[2][1] = 0.50;
+        mAnsicht[2][2] = 0.71;
+
+    }
+
+    private void updateViewport() {
+        mViewport[0][3] = center[0];
+        mViewport[1][3] = center[1];
+
+        mViewport[1][1] = -1.0;
+        mViewport[2][2] = 0.0;
+
     }
 
     private void updateZxZMatrix() {
@@ -202,6 +272,55 @@ public class AbbModel {
 
     public void setMZxZ(double[][] mZxZ) {
         this.mZxZ = mZxZ;
+        fireModelChanged();
+    }
+
+    public double[] getCenter() {
+        return center;
+    }
+
+    public void setCenter(double[] center) {
+        this.center = center;
+        fireModelChanged();
+    }
+
+    public double[] getX() {
+        return xS;
+    }
+
+    public void setX(double[] x) {
+        this.x = x;
+        fireModelChanged();
+    }
+
+    public double[] getY() {
+        return yS;
+    }
+
+    public void setY(double[] y) {
+        this.y = y;
+        fireModelChanged();
+    }
+
+    public double[] getZ() {
+        return zS;
+    }
+
+    public void setZ(double[] z) {
+        this.z = z;
+        fireModelChanged();
+    }
+
+    public double[] getXAxe() {
+        return xAchseS;
+    }
+
+    public double[] getYAxe() {
+        return yAchseS;
+    }
+
+    public double[] getZAxe() {
+        return zAchseS;
     }
 
 }
