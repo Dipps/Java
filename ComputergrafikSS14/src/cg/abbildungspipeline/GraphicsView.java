@@ -35,17 +35,20 @@ public class GraphicsView extends JLabel implements IAbbListener {
         g2d.fillOval((int) center[0] - 2, (int) center[1] - 2, 4, 4);
 
         g2d.setColor(Color.BLACK);
-        double[] pX = calculatePoint2D(eye, model.getX());
+        // double[] pX = calculatePoint2D(eye, model.getX());
+        double[] pX = model.getX();
         g2d.drawString("X", (int) pX[0], (int) pX[1]);
         g2d.fillOval((int) pX[0] - 2, (int) pX[1] - 2, 4, 4);
 
         g2d.setColor(Color.BLUE);
-        double[] pY = calculatePoint2D(eye, model.getY());
+        // double[] pY = calculatePoint2D(eye, model.getY());
+        double[] pY = model.getY();
         g2d.drawString("Y", (int) pY[0], (int) pY[1]);
         g2d.fillOval((int) pY[0] - 2, (int) pY[1] - 2, 4, 4);
 
         g2d.setColor(Color.RED);
-        double[] pZ = calculatePoint2D(eye, model.getZ());
+        // double[] pZ = calculatePoint2D(eye, model.getZ());
+        double[] pZ = model.getZ();
         g2d.drawString("Z", (int) pZ[0], (int) pZ[1]);
         g2d.fillOval((int) pZ[0] - 2, (int) pZ[1] - 2, 4, 4);
 

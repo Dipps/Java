@@ -57,7 +57,7 @@ public class AbbModel {
         updateGammaMatrix();
         updateZxZMatrix();
         updateViewport();
-        // updateAnsicht();
+        updateAnsicht();
         calculatePoints();
     }
 
@@ -69,28 +69,30 @@ public class AbbModel {
 
     private void calculateAxesPoints() {
 
-        xAchseS = Matrix.matMult(mViewport, xAchse);
-        yAchseS = Matrix.matMult(mViewport, yAchse);
-        zAchseS = Matrix.matMult(mViewport, zAchse);
+        xAchseS = Matrix.matMult(mAnsicht, xAchse);
+        yAchseS = Matrix.matMult(mAnsicht, yAchse);
+        zAchseS = Matrix.matMult(mAnsicht, zAchse);
 
-        xAchseS = Matrix.matMult(mAnsicht, xAchseS);
-        yAchseS = Matrix.matMult(mAnsicht, yAchseS);
-        zAchseS = Matrix.matMult(mAnsicht, zAchseS);
+        xAchseS = Matrix.matMult(mViewport, xAchseS);
+        yAchseS = Matrix.matMult(mViewport, yAchseS);
+        zAchseS = Matrix.matMult(mViewport, zAchseS);
 
     }
 
     private void calculatePlanePoints() {
+
         xS = Matrix.matMult(mZxZ, x);
         yS = Matrix.matMult(mZxZ, y);
         zS = Matrix.matMult(mZxZ, z);
+
+        xS = Matrix.matMult(mAnsicht, xS);
+        yS = Matrix.matMult(mAnsicht, yS);
+        zS = Matrix.matMult(mAnsicht, zS);
 
         xS = Matrix.matMult(mViewport, xS);
         yS = Matrix.matMult(mViewport, yS);
         zS = Matrix.matMult(mViewport, zS);
 
-        xS = Matrix.matMult(mAnsicht, xS);
-        yS = Matrix.matMult(mAnsicht, yS);
-        zS = Matrix.matMult(mAnsicht, zS);
     }
 
     private void updateAnsicht() {
