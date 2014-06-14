@@ -14,6 +14,10 @@ public class AbbModel {
     private double beta = 0.0;
     private double gamma = 0.0;
 
+    private double alphaA = 0.0;
+    private double betaA = 0.0;
+    private double gammaA = 0.0;
+
     private double[][] mAnsicht = new double[4][4];
     private double[][] mViewport = new double[4][4];
     private double[][] mFactor = new double[4][4];
@@ -96,17 +100,51 @@ public class AbbModel {
     }
 
     private void updateAnsicht() {
-        mAnsicht[0][0] = 0.71;
-        mAnsicht[0][1] = 0.71;
 
-        mAnsicht[1][0] = -0.50;
-        mAnsicht[1][1] = 0.50;
-        mAnsicht[1][2] = 0.71;
+        double sinA = Math.sin(Math.toRadians(alphaA));
+        double cosA = Math.cos(Math.toRadians(alphaA));
 
-        mAnsicht[2][0] = 0.50;
-        mAnsicht[2][1] = 0.50;
-        mAnsicht[2][2] = 0.71;
+        double sinB = Math.sin(Math.toRadians(betaA));
+        double cosB = Math.cos(Math.toRadians(betaA));
 
+        double sinG = Math.sin(Math.toRadians(gammaA));
+        double cosG = Math.cos(Math.toRadians(gammaA));
+
+        double[][] mAlpha = new double[4][4];
+        mAlpha[0][0] = 1.0;
+
+        mAlpha[1][1] = cosA;
+        mAlpha[1][2] = -sinA;
+
+        mAlpha[2][1] = sinA;
+        mAlpha[2][2] = cosA;
+
+        mAlpha[3][3] = 1.0;
+
+        double[][] mBeta = new double[4][4];
+        mBeta[0][0] = cosB;
+        mBeta[0][2] = sinB;
+
+        mBeta[1][1] = 1.0;
+
+        mBeta[2][0] = -sinB;
+        mBeta[2][2] = cosB;
+
+        mBeta[3][3] = 1.0;
+
+        double[][] mGamma = new double[4][4];
+        mGamma[0][0] = cosG;
+        mGamma[0][1] = -sinG;
+
+        mGamma[1][0] = sinG;
+        mGamma[1][1] = cosG;
+
+        mGamma[2][2] = 1.0;
+
+        mGamma[3][3] = 1.0;
+
+        double[][] mTmp = Matrix.matMult(mAlpha, mBeta);
+        mAnsicht = Matrix.matMult(mTmp, mGamma);
     }
 
     private void updateViewport() {
@@ -323,6 +361,30 @@ public class AbbModel {
 
     public double[] getZAxe() {
         return zAchseS;
+    }
+
+    public double getAlphaA() {
+        return alphaA;
+    }
+
+    public void setAlphaA(double alphaA) {
+        this.alphaA = alphaA;
+    }
+
+    public double getBetaA() {
+        return betaA;
+    }
+
+    public void setBetaA(double betaA) {
+        this.betaA = betaA;
+    }
+
+    public double getGammaA() {
+        return gammaA;
+    }
+
+    public void setGammaA(double gammaA) {
+        this.gammaA = gammaA;
     }
 
 }

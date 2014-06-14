@@ -37,7 +37,12 @@ public class AbbController implements ActionListener, ChangeListener {
             model.setBeta(js.getValue());
         } else if (js.getName().equals("sGamma")) {
             model.setGamma(js.getValue());
+        } else if (js.getName().equals("sAlphaA")) {
+            model.setAlphaA(js.getValue());
+        } else if (js.getName().equals("sBetaA")) {
+            model.setBetaA(js.getValue());
+        } else if (js.getName().equals("sGammaA")) {
+            model.setGammaA(js.getValue());
         }
-
     }
 }
