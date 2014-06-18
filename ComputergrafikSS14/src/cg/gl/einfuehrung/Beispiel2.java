@@ -61,7 +61,7 @@ public class Beispiel2
             // Display loeschen
             GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
             // set the color of the quad (R,G,B,A)
-            // GL11.glColor4f(0.2f, 0.5f, 1.0f, 0.5f);
+            GL11.glColor4f(0.2f, 0.5f, 1.0f, 0.5f);
 
             tex.bind();
 
