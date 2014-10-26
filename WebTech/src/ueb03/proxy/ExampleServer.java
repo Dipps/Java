@@ -6,9 +6,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Server {
+public class ExampleServer {
 	public static void main(String[] args) {
-		Server server = new Server();
+		ExampleServer server = new ExampleServer();
 		try {
 			server.test();
 		} catch (IOException e) {

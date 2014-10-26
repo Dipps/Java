@@ -6,9 +6,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Client {
+public class ExampleClient {
 	public static void main(String[] args) {
-		Client client = new Client();
+		ExampleClient client = new ExampleClient();
 		try {
 			client.test();
 		} catch (IOException e) {
