@@ -52,18 +52,19 @@ public class MyClient {
 			 * <td align="center">Schadenfreude</td>
 			 */
 			String txtLine;
-			final String regex = "<img[^>]+alt=[\"]([^\"]+)[\"][^>]*>"; // Regulärer Ausdruck für Inhalt des alt-Attribut
+			final String regex = "<img[^>]+alt=([\"][^\"]+)[\"][^>]*>"; // Regulärer Ausdruck für Inhalt des alt-Attribut
 
 			Pattern pattern = Pattern.compile(regex);
 			StringBuffer buffer = new StringBuffer();
 
 			while ((txtLine = din.readLine()) != null) {
 
-				Matcher matcher = pattern.matcher(txtLine);
+				Matcher matcher = pattern.matcher(txtLine); // vergleiche HTML Code und Reg. Ausdruck
 				buffer = new StringBuffer(txtLine.length());
 
-				while (matcher.find()) {
-					matcher.appendReplacement(buffer, "$1");
+				while (matcher.find()) { // finde nächste Teilzeichenkette
+					matcher.appendReplacement(buffer, "$1"); // It appends the given replacement string to the string buffer. $1 = (...) des Reg.
+					                                         // Ausdrucks
 				}
 
 				matcher.appendTail(buffer);
@@ -79,9 +80,9 @@ public class MyClient {
 		}
 
 		// Page in der Console ausgeben
-		// for (String s : webPage) {
-		// System.out.println(s);
-		// }
+		for (String s : webPage) {
+			System.out.println(s);
+		}
 
 		return webPage;
 
