@@ -67,7 +67,7 @@ public class MyClient {
 					                                         // Ausdrucks
 				}
 
-				matcher.appendTail(buffer);
+				matcher.appendTail(buffer); // fügt den Rest zum buffer hinzu
 
 				webPage.add(buffer.toString());
 
